@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="title_activity_map_box">MapBoxActivity</string>
+    <string name="accessToken">pk.eyJ1IjoidXRhbm93IiwiYSI6ImNpazRjdW5ibTAwMnV1YWtzOTQ0cDVydGoifQ.J2q2cX4MrC_j9yhaXMN_8Q</string>
 </resources>
