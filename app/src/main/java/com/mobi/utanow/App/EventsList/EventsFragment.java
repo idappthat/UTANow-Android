@@ -1,4 +1,4 @@
-package com.mobi.utanow.App.EventsList;
+package com.mobi.utanow.App.eventslist;
 
 /**
  * Created by Anthony on 11/13/15.

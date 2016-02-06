@@ -2,4 +2,13 @@
     <string name="app_name">UTA Now</string>
     <string name="facebook_app_id">1625138201105249</string>
     <string name="dashboard">dashboard</string>
+
+    <!-- Drawer -->
+    <string name="favorites">Favorites</string>
+    <string name="organizations">Organizations</string>
+    <string name="createEvent">Create Event</string>
+    <string name="settings">Settings</string>
+    <string name="logOut">Log Out</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
