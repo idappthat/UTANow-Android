@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.TextView;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -26,18 +28,21 @@ import java.util.Arrays;
 public class LoginActivity extends AppCompatActivity {
 
     LoginButton fbLoginButton;
+    Button skipButton;
     CallbackManager callbackManager;
     Context context;
-    TextView tv;
     Intent intent;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         FacebookSdk.sdkInitialize(getApplicationContext());
+        setContentView(R.layout.activity_login);
+
         callbackManager = CallbackManager.Factory.create();
         context = this;
+
 
         // Check if user is already logged in
         if(AccessToken.getCurrentAccessToken()!=null) {
@@ -47,9 +52,9 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         fbLoginButton = (LoginButton) findViewById(R.id.login_button);
+        skipButton = (Button) findViewById(R.id.skip_login);
 
         fbLoginButton.setReadPermissions(Arrays.asList("user_groups"));
-
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -65,8 +70,16 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(FacebookException exception) {
-                Toast.makeText(context,"an error has occured please try again",Toast.LENGTH_SHORT);
-                Log.e("Loggin Error",exception.getLocalizedMessage());
+                Toast.makeText(context, "an error has occured please try again", Toast.LENGTH_SHORT);
+                Log.e("Loggin Error", exception.getLocalizedMessage());
+            }
+        });
+
+        skipButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
             }
         });
     }

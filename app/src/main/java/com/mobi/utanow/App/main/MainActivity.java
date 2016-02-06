@@ -5,13 +5,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Button;
 
 import com.facebook.login.LoginManager;
 import com.mobi.utanow.App.login.LoginActivity;
@@ -40,8 +40,20 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         initDrawer();
+        initViewPager();
     }
 
+    private void initViewPager()
+    {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager.setAdapter(new TabsAdapter(getSupportFragmentManager(), MainActivity.this));
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 1"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 2"));
+        tabLayout.addTab(tabLayout.newTab().setText("Tab 3"));
+        tabLayout.setupWithViewPager(viewPager);
+    }
 
     private void initDrawer()
     {
