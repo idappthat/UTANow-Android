@@ -9,7 +9,7 @@ import com.mapbox.mapboxsdk.geometry.LatLng;
 import com.mapbox.mapboxsdk.views.MapView;
 import com.mobi.utanow.myapplication.R;
 
-public class mapBoxActivity extends AppCompatActivity {
+public class MapBoxActivity extends AppCompatActivity {
     private MapView mapView = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

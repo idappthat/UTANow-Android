@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.mobi.utanow.App.MapBox.mapBoxActivity"><!--testing map-->
+        <activity android:name="com.mobi.utanow.App.MapBox.MapBoxActivity"><!--testing map-->
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
