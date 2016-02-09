@@ -1,5 +1,6 @@
 package com.mobi.utanow.App.MapBox;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -15,11 +16,21 @@ public class MapBoxActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_box);
+        System.out.println("in box");
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
         /** Create a mapView and give it some properties */
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setStyleUrl(Style.DARK);
-        mapView.setCenterCoordinate(new LatLng(32.729,-97.115));
-        mapView.setZoomLevel(11);
+        double xco = extras.getDouble("xco");//get x cordinance
+        double yco = extras.getDouble("yco");
+        if((xco!=0)&&(yco!=0)){//can't compare to NULL? What hapens if the key for the bundle is invalid? does it return 0?
+            mapView.setCenterCoordinate(new LatLng(xco,yco));
+        }
+        else {
+            mapView.setCenterCoordinate(new LatLng(32.729, -97.115));
+        }
+        mapView.setZoomLevel(17.5);
         mapView.addMarker(new MarkerOptions().title("Hello World!")
                         .snippet("Party Here!!")
                         .position(new LatLng(32.729,-97.115)));
