@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.mobi.utanow.myapplication" >
+    package="com.mobi.utanow">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    
+
     <application
         android:allowBackup="true"
+        android:name=".UtaNow"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-        <activity android:name="com.mobi.utanow.App.login.LoginActivity"
+        <activity
+            android:name=".login.LoginActivity"
             android:label="@string/app_name">
 
             <intent-filter>
@@ -24,17 +28,37 @@
 
         </activity>
 
+        <activity android:name=".eventslist.EventListActivity" />
 
-        <activity android:name="com.mobi.utanow.App.main.MainActivity">
-        </activity>
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
+        <activity
+            android:parentActivityName=".eventslist.EventListActivity"
+            android:name=".bookmarks.BookMarksActivity"
+            android:label="@string/title_activity_book_marks"
+            android:theme="@style/AppTheme" />
 
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+        <activity
+            android:parentActivityName=".eventslist.EventListActivity"
+            android:name=".createevent.CreateEventActivity"
+            android:label="@string/title_activity_create_event"
+            android:theme="@style/AppTheme" />
 
+        <activity
+            android:parentActivityName=".eventslist.EventListActivity"
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:parentActivityName=".eventslist.EventListActivity"
+            android:name=".organizations.OrganizationsActivity"
+            android:label="@string/title_activity_organizations"
+            android:theme="@style/AppTheme"/>
     </application>
 
 </manifest>
