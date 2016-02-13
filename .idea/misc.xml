@@ -44,11 +44,7 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
-<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" default="true" assert-keyword="true" jdk-15="true" project-jdk-name="1.7" project-jdk-type="JavaSDK">
-=======
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" assert-keyword="true" jdk-15="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
->>>>>>> 4071fe6841fe698ad11db7d92d462aa8bdaf2146
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
@@ -58,11 +54,7 @@
     <states>
       <state key="ProjectJDKs.UI">
         <settings>
-<<<<<<< HEAD
           <last-edited>1.7</last-edited>
-=======
-          <last-edited>1.8</last-edited>
->>>>>>> 4071fe6841fe698ad11db7d92d462aa8bdaf2146
           <splitter-proportions>
             <option name="proportions">
               <list>

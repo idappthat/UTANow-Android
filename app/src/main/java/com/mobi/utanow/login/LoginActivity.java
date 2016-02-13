@@ -17,6 +17,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.mobi.utanow.R;
 import com.mobi.utanow.eventslist.EventListActivity;
+import com.mobi.utanow.map.MapBoxActivity;
 
 import java.util.Arrays;
 

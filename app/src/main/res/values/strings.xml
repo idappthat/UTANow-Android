@@ -1,4 +1,5 @@
 <resources>
+    <string name="accessToken">pk.eyJ1IjoidXRhbm93IiwiYSI6ImNpazRjdW5ibTAwMnV1YWtzOTQ0cDVydGoifQ.J2q2cX4MrC_j9yhaXMN_8Q</string>
     <string name="app_name">UTA Now</string>
     <string name="facebook_app_id">1625138201105249</string>
 
