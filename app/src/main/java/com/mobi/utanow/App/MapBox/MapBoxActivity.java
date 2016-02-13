@@ -19,11 +19,15 @@ public class MapBoxActivity extends AppCompatActivity {
         System.out.println("in box");
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+        double xco=0;
+        double yco=0;
         /** Create a mapView and give it some properties */
         mapView = (MapView) findViewById(R.id.mapview);
         mapView.setStyleUrl(Style.DARK);
-        double xco = extras.getDouble("xco");//get x cordinance
-        double yco = extras.getDouble("yco");
+        if(extras!=null) {
+            xco = extras.getDouble("xco", 0);//get x cordinance4
+            yco = extras.getDouble("yco", 0);
+        }
         if((xco!=0)&&(yco!=0)){//can't compare to NULL? What hapens if the key for the bundle is invalid? does it return 0?
             mapView.setCenterCoordinate(new LatLng(xco,yco));
         }
