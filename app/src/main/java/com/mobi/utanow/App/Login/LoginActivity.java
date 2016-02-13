@@ -21,6 +21,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.mobi.utanow.App.Dashboard.DashboardActivity;
+import com.mobi.utanow.App.MapBox.MapBoxActivity;
 import com.mobi.utanow.myapplication.R;
 
 import java.util.Arrays;
@@ -83,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(context, DashboardActivity.class);
+                intent = new Intent(context, MapBoxActivity.class);
                 startActivity(intent);
             }
         });
