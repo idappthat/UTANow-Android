@@ -78,6 +78,7 @@ public class AppModule
     @Singleton
     public EventModel eventModel()
     {
-        return new EventModel();
+        //ToDo Make this not fake information
+        return new EventModel("event name","club name","description");
     }
 }
