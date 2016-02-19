@@ -16,6 +16,6 @@ public class EventModel {
         this.description = description;
     }
     public String getEventName(){return eventName;}
-    public String getClubName(){return eventName;}
-    public String getDiscription(){return eventName;}
+    public String getClubName(){return clubName;}
+    public String getDiscription(){return description;}
 }
