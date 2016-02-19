@@ -29,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".map.MapBoxActivity"
             android:label="Map Box"
@@ -44,16 +45,25 @@
             android:label="@string/title_activity_book_marks"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".createevent.CreateEventActivity"
             android:label="@string/title_activity_create_event"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
+
+        <activity android:name="com.mobi.utanow.eventdetails.EventDetailsActivity"
+            android:label="@string/event_details">
+        </activity>
+
+
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".organizations.OrganizationsActivity"
             android:label="@string/title_activity_organizations"
