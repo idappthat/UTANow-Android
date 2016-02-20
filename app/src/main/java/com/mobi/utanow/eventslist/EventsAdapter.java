@@ -4,9 +4,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.mobi.utanow.models.EventModel;
 import com.mobi.utanow.R;
+import com.mobi.utanow.models.Event;
+import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +21,7 @@ import java.util.List;
  */
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolder>
 {
-   List<EventModel> eventList = new ArrayList<>();
+   List<Event> eventList = new ArrayList<>();
 
     @Override
     public EventHolder onCreateViewHolder(ViewGroup parent, int viewType)
@@ -37,15 +42,34 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         return eventList.size();
     }
 
+    public void addEvent(Event e, int index)
+    {
+        eventList.add(index, e);
+        notifyItemInserted(index);
+    }
+
     public static class EventHolder extends RecyclerView.ViewHolder
     {
+        ImageView mImage;
+        TextView mTitle;
+        TextView mOrg;
+
         public EventHolder(View itemView)
         {
-         super(itemView);
+            super(itemView);
+            mImage = (ImageView) itemView.findViewById(R.id.im_event);
+            mTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            mOrg = (TextView) itemView.findViewById(R.id.tv_org);
         }
 
-        public void bind(EventModel model)
+        public void bind(Event model)
         {
+            Picasso.with(itemView.getContext())
+                    .load(model.getImgUrl())
+                    .into(mImage);
+
+            mTitle.setText(model.getTitle());
+            mOrg.setText(model.getOrganization());
         }
     }
 }

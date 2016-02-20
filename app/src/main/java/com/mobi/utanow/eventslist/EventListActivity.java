@@ -3,6 +3,7 @@ package com.mobi.utanow.eventslist;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,6 +23,7 @@ import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.bookmarks.BookMarksActivity;
 import com.mobi.utanow.createevent.CreateEventActivity;
 import com.mobi.utanow.login.LoginActivity;
+import com.mobi.utanow.models.Event;
 import com.mobi.utanow.organizations.OrganizationsActivity;
 import com.mobi.utanow.settings.SettingsActivity;
 import com.squareup.otto.Bus;
@@ -42,6 +45,7 @@ public class EventListActivity extends AppCompatActivity
     ActionBarDrawerToggle mToggle;
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefresh;
+    EventsAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -83,22 +87,44 @@ public class EventListActivity extends AppCompatActivity
     private void initSwipeRefresh()
     {
         mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefresh.setProgressViewEndTarget(false, 300);
         mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
         {
             @Override
             public void onRefresh()
             {
-                //TODO: Refresh the list
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        fakeData();
+                        mSwipeRefresh.setRefreshing(false);
+                    }
+                }, 2000);
             }
         });
     }
 
     private void initRecyclerView()
     {
+        mAdapter = new EventsAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.eventList);
-        mRecyclerView.setAdapter(new EventsAdapter());
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void fakeData()
+    {
+        Event e1 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/K32XT35.png");
+        Event e2 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/aZOgXw7.jpg");
+        Event e3 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/7xYpSBK.jpg");
+
+
+        mAdapter.addEvent(e1, 0);
+        mAdapter.addEvent(e2, 0);
+        mAdapter.addEvent(e3, 0);
     }
 
     private void initDrawer()
@@ -106,9 +132,12 @@ public class EventListActivity extends AppCompatActivity
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navView);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
+        {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
+            public boolean onNavigationItemSelected(MenuItem menuItem)
+
+            {
                 selectDrawerItem(menuItem);
                 return true;
             }

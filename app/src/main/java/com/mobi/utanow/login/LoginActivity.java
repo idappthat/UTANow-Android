@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.facebook.AccessToken;
@@ -15,9 +16,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.mobi.utanow.R;
-import com.mobi.utanow.eventslist.EventListActivity;
 
+import com.mobi.utanow.R;
+import com.mobi.utanow.eventdetails.EventDetailsActivity;
+import com.mobi.utanow.eventslist.EventListActivity;
 import java.util.Arrays;
 
 /**
@@ -38,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
         context = this;
+
 
         fbLoginButton = (LoginButton) findViewById(R.id.login_button);
         skipButton = (Button) findViewById(R.id.skip_login);
@@ -69,13 +72,13 @@ public class LoginActivity extends AppCompatActivity {
         skipButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 Intent intent = new Intent(context, EventListActivity.class);
                 startActivity(intent);
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
