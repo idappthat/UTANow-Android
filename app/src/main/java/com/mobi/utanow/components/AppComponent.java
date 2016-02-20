@@ -1,5 +1,6 @@
 package com.mobi.utanow.components;
 
+import com.mobi.utanow.SplashActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
 import com.mobi.utanow.modules.AppModule;
 import com.mobi.utanow.modules.NetModule;
@@ -16,5 +17,6 @@ import dagger.Component;
 public interface AppComponent
 {
     void inject(EventListActivity activity);
+    void inject(SplashActivity activity);
 }
 

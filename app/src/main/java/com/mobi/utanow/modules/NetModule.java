@@ -25,11 +25,5 @@ public class NetModule
         return PreferenceManager.getDefaultSharedPreferences(application);
     }
 
-    @Provides
-    @Singleton
-    Api api()
-    {
-        return new Api();
-    }
 }
 

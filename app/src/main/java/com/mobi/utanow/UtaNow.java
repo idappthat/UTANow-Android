@@ -3,6 +3,7 @@ package com.mobi.utanow;
 import android.app.Application;
 
 import com.facebook.FacebookSdk;
+import com.firebase.client.Firebase;
 import com.mobi.utanow.components.AppComponent;
 import com.mobi.utanow.components.DaggerAppComponent;
 import com.mobi.utanow.modules.AppModule;
@@ -21,6 +22,7 @@ public class UtaNow extends Application
         super.onCreate();
 
         FacebookSdk.sdkInitialize(getApplicationContext());
+        Firebase.setAndroidContext(this);
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))

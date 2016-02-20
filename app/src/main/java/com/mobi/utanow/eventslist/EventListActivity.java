@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,11 +37,11 @@ public class EventListActivity extends AppCompatActivity
     @Inject
     Bus mEventBus;
 
-
     DrawerLayout mDrawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle mToggle;
     RecyclerView mRecyclerView;
+    SwipeRefreshLayout mSwipeRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +55,7 @@ public class EventListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         initDrawer();
+        initSwipeRefresh();
         initRecyclerView();
     }
 
@@ -76,6 +78,19 @@ public class EventListActivity extends AppCompatActivity
     {
         super.onStop();
         mEventBus.unregister(this);
+    }
+
+    private void initSwipeRefresh()
+    {
+        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
+        {
+            @Override
+            public void onRefresh()
+            {
+                //TODO: Refresh the list
+            }
+        });
     }
 
     private void initRecyclerView()
