@@ -7,7 +7,6 @@ import com.firebase.client.Firebase;
 import com.mobi.utanow.components.AppComponent;
 import com.mobi.utanow.components.DaggerAppComponent;
 import com.mobi.utanow.modules.AppModule;
-import com.mobi.utanow.modules.NetModule;
 
 /**
  * Created by anthony on 2/5/16.
@@ -26,7 +25,6 @@ public class UtaNow extends Application
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .netModule(new NetModule())
                 .build();
     }
 

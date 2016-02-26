@@ -18,11 +18,11 @@ import java.util.List;
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoriteHolder> {
     List<Event> events;
 
-    public FavoritesAdapter(){
+    public FavoritesAdapter() {
         events = new ArrayList<>();
     }
 
-    public void addFavorite(Event event){
+    public void addFavorite(Event event) {
         events.add(event);
         notifyItemInserted(events.size()-1);
     }
@@ -37,7 +37,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
         holder.bind(event);
     }
     @Override
-    public int getItemCount(){return events.size();}
+    public int getItemCount() {return events.size();}
 
     public class FavoriteHolder extends RecyclerView.ViewHolder{
         TextView tvEvent, tvClub, tvDescription;

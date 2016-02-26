@@ -18,6 +18,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.facebook.login.LoginManager;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.mobi.utanow.R;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.bookmarks.BookMarksActivity;
@@ -39,12 +43,13 @@ public class EventListActivity extends AppCompatActivity
 {
     @Inject
     Bus mEventBus;
+    @Inject
+    Firebase mFirebase;
 
     DrawerLayout mDrawerLayout;
     Toolbar toolbar;
     ActionBarDrawerToggle mToggle;
     RecyclerView mRecyclerView;
-    SwipeRefreshLayout mSwipeRefresh;
     EventsAdapter mAdapter;
 
     @Override
@@ -59,7 +64,6 @@ public class EventListActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 
         initDrawer();
-        initSwipeRefresh();
         initRecyclerView();
     }
 
@@ -84,28 +88,6 @@ public class EventListActivity extends AppCompatActivity
         mEventBus.unregister(this);
     }
 
-    private void initSwipeRefresh()
-    {
-        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        mSwipeRefresh.setProgressViewEndTarget(false, 300);
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        fakeData();
-                        mSwipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-    }
-
     private void initRecyclerView()
     {
         mAdapter = new EventsAdapter();
@@ -113,18 +95,34 @@ public class EventListActivity extends AppCompatActivity
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-    }
 
-    private void fakeData()
-    {
-        Event e1 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/K32XT35.png");
-        Event e2 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/aZOgXw7.jpg");
-        Event e3 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/7xYpSBK.jpg");
+        mFirebase.child("events").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Event event = dataSnapshot.getValue(Event.class);
+                mAdapter.addEvent(event, 0);
+                mRecyclerView.scrollToPosition(0);
+            }
 
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-        mAdapter.addEvent(e1, 0);
-        mAdapter.addEvent(e2, 0);
-        mAdapter.addEvent(e3, 0);
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
     private void initDrawer()
