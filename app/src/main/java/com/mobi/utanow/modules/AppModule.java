@@ -5,7 +5,7 @@ import android.support.v4.app.NotificationManagerCompat;
 
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.jobs.BaseJob;
-import com.mobi.utanow.models.EventModel;
+import com.mobi.utanow.models.Event;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
@@ -74,11 +74,10 @@ public class AppModule
         return new Bus();
     }
 
-    @Provides
-    @Singleton
-    public EventModel eventModel()
-    {
-        //ToDo Make this not fake information
-        return new EventModel("event name","club name","description");
-    }
+//    @Provides
+//    @Singleton
+//    public Event eventModel()
+//    {
+//        return new Event("event name","club name","description");
+//    }
 }

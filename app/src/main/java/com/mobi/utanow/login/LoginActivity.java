@@ -7,6 +7,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 
 import com.facebook.AccessToken;
@@ -15,10 +16,10 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.mobi.utanow.R;
-import com.mobi.utanow.eventslist.EventListActivity;
-import com.mobi.utanow.map.MapBoxActivity;
 
+import com.mobi.utanow.R;
+import com.mobi.utanow.eventdetails.EventDetailsActivity;
+import com.mobi.utanow.eventslist.EventListActivity;
 import java.util.Arrays;
 
 /**
@@ -30,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     Button skipButton;
     CallbackManager callbackManager;
     Context context;
-    Intent intent;
 
 
     @Override
@@ -42,24 +42,19 @@ public class LoginActivity extends AppCompatActivity {
         context = this;
 
 
-        // Check if user is already logged in
-        if(AccessToken.getCurrentAccessToken()!=null) {
-            Log.d("fb token", AccessToken.getCurrentAccessToken().getToken());
-            intent = new Intent(context,EventListActivity.class);
-            startActivity(intent);
-        }
-
         fbLoginButton = (LoginButton) findViewById(R.id.login_button);
         skipButton = (Button) findViewById(R.id.skip_login);
 
-        fbLoginButton.setReadPermissions(Arrays.asList("user_groups"));
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        String[] perms = new String[] {"public_profile", "email", "user_photos"};
+        fbLoginButton.setReadPermissions(Arrays.asList(perms));
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(LoginResult loginResult)
+            {
                 //user logged in correctly
-                intent = new Intent(context,EventListActivity.class);
+                Intent intent = new Intent(context, EventListActivity.class);
                 startActivity(intent);
-
             }
 
             @Override
@@ -74,15 +69,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        skipButton.setOnClickListener(new View.OnClickListener() {
+        skipButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                intent = new Intent(context, EventListActivity.class);
+            public void onClick(View v)
+            {
+                Intent intent = new Intent(context, EventListActivity.class);
                 startActivity(intent);
             }
         });
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

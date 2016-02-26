@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
-    >
+    android:fitsSystemWindows="true"
+    android:background="@mipmap/background">
 
 
     <TextView
@@ -18,9 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="40dp"
         android:layout_centerVertical="true"
-        android:textColor="#FFFFFF"
-
-        />
+        android:textColor="#FFFFFF" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
@@ -32,8 +29,7 @@
         android:paddingTop="15dp"
         android:layout_marginBottom="100dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/skip_login"

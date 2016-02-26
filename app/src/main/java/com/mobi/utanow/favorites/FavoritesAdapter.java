@@ -1,4 +1,4 @@
-package com.mobi.utanow.Adapter;
+package com.mobi.utanow.favorites;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mobi.utanow.R;
-import com.mobi.utanow.models.EventModel;
+import com.mobi.utanow.models.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,13 +16,13 @@ import java.util.List;
  * Created by Robert on 2/18/2016.
  */
 public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.FavoriteHolder> {
-    List<EventModel> events;
+    List<Event> events;
 
     public FavoritesAdapter(){
         events = new ArrayList<>();
     }
 
-    public void addFavorite(EventModel event){
+    public void addFavorite(Event event){
         events.add(event);
         notifyItemInserted(events.size()-1);
     }
@@ -33,7 +33,7 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
     }
     @Override
     public void onBindViewHolder(FavoriteHolder holder, int position){
-        EventModel event = events.get(position);
+        Event event = events.get(position);
         holder.bind(event);
     }
     @Override
@@ -44,14 +44,14 @@ public class FavoritesAdapter extends RecyclerView.Adapter<FavoritesAdapter.Favo
 
         public FavoriteHolder(View itemView){
             super(itemView);
-            tvEvent =(TextView) itemView.findViewById(R.id.event_Name);
-            tvClub =(TextView) itemView.findViewById(R.id.club_Name);
-            tvDescription =(TextView) itemView.findViewById(R.id.event_Description);
+            tvEvent = (TextView) itemView.findViewById(R.id.event_Name);
+            tvClub = (TextView) itemView.findViewById(R.id.club_Name);
+            tvDescription = (TextView) itemView.findViewById(R.id.event_Description);
         }
-        public void bind(EventModel event){
-            tvEvent.setText(event.getEventName());
-            tvClub.setText(event.getClubName());
-            tvDescription.setText(event.getDiscription());
+        public void bind(Event event){
+            tvEvent.setText(event.getTitle());
+            tvClub.setText(event.getOrganization());
+            tvDescription.setText(event.getDescription());
         }
     }
 }
