@@ -1,5 +1,6 @@
 package com.mobi.utanow.eventslist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class EventListActivity extends AppCompatActivity
     RecyclerView mRecyclerView;
     SwipeRefreshLayout mSwipeRefresh;
     EventsAdapter mAdapter;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -86,30 +88,28 @@ public class EventListActivity extends AppCompatActivity
 
     private void initSwipeRefresh()
     {
-        mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
-        mSwipeRefresh.setProgressViewEndTarget(false, 300);
-        mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
-        {
-            @Override
-            public void onRefresh()
-            {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run()
-                    {
-                        fakeData();
-                        mSwipeRefresh.setRefreshing(false);
-                    }
-                }, 2000);
-            }
-        });
-    }
+    mSwipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swiperefresh);
+    mSwipeRefresh.setProgressViewEndTarget(false, 300);
+    mSwipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    fakeData();
+                    mSwipeRefresh.setRefreshing(false);
+                }
+            }, 2000);
+        }
+    });
+}
 
     private void initRecyclerView()
     {
-        mAdapter = new EventsAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.eventList);
+        context = mRecyclerView.getContext();
+        mAdapter = new EventsAdapter(context);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
