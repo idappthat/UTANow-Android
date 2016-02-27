@@ -3,10 +3,10 @@ package com.mobi.utanow.models;
 /**
  * Created by Kevin on 2/12/2016.
  */
-public class Event
-{
+public class Event {
     String title;
     String image;
+    String organizationImage;
     String organization;
     String description;
 
@@ -36,5 +36,9 @@ public class Event
 
     public String getDescription() {
         return description;
+    }
+
+    public String getOrginaztionImage() {
+        return organizationImage;
     }
 }

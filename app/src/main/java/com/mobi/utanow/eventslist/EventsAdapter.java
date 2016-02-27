@@ -69,6 +69,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         TextView mTitle;
         TextView mOrg;
         String url;
+        Event mEvent;
 
         public EventHolder(View itemView)
         {
@@ -81,6 +82,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 
         public void bind(Event model)
         {
+            mEvent = model;
             Picasso.with(itemView.getContext())
                     .load(model.getImage())
                     .into(mImage);
@@ -93,9 +95,10 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         @Override
         public void onClick(View v) {
             Intent intent = new Intent(v.getContext(),EventDetailsActivity.class);
-            intent.putExtra("orgName",mOrg.getText().toString());
-            intent.putExtra("eventName",mTitle.getText().toString());
-            intent.putExtra("imgURL",url);
+            intent.putExtra(EventDetailsActivity.ORG_NAME, mOrg.getText().toString());
+            intent.putExtra(EventDetailsActivity.EVENT_NAME, mTitle.getText().toString());
+            intent.putExtra(EventDetailsActivity.EVENT_DES, mEvent.getDescription());
+            intent.putExtra(EventDetailsActivity.IMAGE_URL ,url);
             v.getContext().startActivity(intent);
         }
     }

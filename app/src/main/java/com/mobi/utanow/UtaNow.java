@@ -22,6 +22,7 @@ public class UtaNow extends Application
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         Firebase.setAndroidContext(this);
+        Firebase.getDefaultConfig().setPersistenceEnabled(true);
 
         appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
