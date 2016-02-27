@@ -1,5 +1,6 @@
 package com.mobi.utanow.eventslist;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.mobi.utanow.R;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.bookmarks.BookMarksActivity;
@@ -51,6 +53,7 @@ public class EventListActivity extends AppCompatActivity
     ActionBarDrawerToggle mToggle;
     RecyclerView mRecyclerView;
     EventsAdapter mAdapter;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -90,11 +93,13 @@ public class EventListActivity extends AppCompatActivity
 
     private void initRecyclerView()
     {
-        mAdapter = new EventsAdapter();
         mRecyclerView = (RecyclerView) findViewById(R.id.eventList);
+        context = mRecyclerView.getContext();
+        mAdapter = new EventsAdapter(context);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
 
         mFirebase.child("events").addChildEventListener(new ChildEventListener() {
             @Override
@@ -111,6 +116,8 @@ public class EventListActivity extends AppCompatActivity
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Event event= dataSnapshot.getValue(Event.class);
+                mAdapter.removeEvent(event);
             }
 
             @Override

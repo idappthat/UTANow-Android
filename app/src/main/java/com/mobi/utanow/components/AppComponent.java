@@ -2,6 +2,7 @@ package com.mobi.utanow.components;
 
 import com.mobi.utanow.SplashActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
+import com.mobi.utanow.login.LoginActivity;
 import com.mobi.utanow.modules.AppModule;
 
 import javax.inject.Singleton;
@@ -17,5 +18,6 @@ public interface AppComponent
 {
     void inject(EventListActivity activity);
     void inject(SplashActivity activity);
+    void inject(LoginActivity activity);
 }
 

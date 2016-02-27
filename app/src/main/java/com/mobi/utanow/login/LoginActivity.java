@@ -17,15 +17,25 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.mobi.utanow.R;
+import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.eventdetails.EventDetailsActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
 import java.util.Arrays;
+
+import javax.inject.Inject;
 
 /**
  * Created by Anthony on 11/13/15.
  */
 public class LoginActivity extends AppCompatActivity {
+
+
+    @Inject
+    Firebase mFirebase;
 
     LoginButton fbLoginButton;
     Button skipButton;
@@ -37,6 +47,9 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ((UtaNow) getApplication()).getAppComponent().inject(this);
+
 
         callbackManager = CallbackManager.Factory.create();
         context = this;
@@ -50,11 +63,8 @@ public class LoginActivity extends AppCompatActivity {
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
         {
             @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                //user logged in correctly
-                Intent intent = new Intent(context, EventListActivity.class);
-                startActivity(intent);
+            public void onSuccess(LoginResult loginResult) {
+                onFacebookAccessTokenChange(loginResult.getAccessToken());
             }
 
             @Override
@@ -69,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
         skipButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -78,6 +89,28 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void onFacebookAccessTokenChange(AccessToken token) {
+        if (token != null) {
+            mFirebase.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    //user logged in correctly
+                    Intent intent = new Intent(context, EventListActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    Snackbar.make(fbLoginButton, "Login Error Please Try Again", Snackbar.LENGTH_LONG);
+                    Log.e("Login Error", firebaseError.getMessage());
+                }
+            });
+        } else {
+        /* Logged out of Facebook so do a logout from the Firebase app */
+            mFirebase.unauth();
+        }
     }
 
     @Override
