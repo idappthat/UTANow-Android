@@ -17,6 +17,8 @@ public class Event
         this.organization = organization;
         this.imgUrl = url;
     }
+    public Event(){
+    }
 
     public String getTitle() {
         return title;
