@@ -3,6 +3,7 @@ package com.mobi.utanow.modules;
 import android.app.Application;
 import android.support.v4.app.NotificationManagerCompat;
 
+import com.firebase.client.Firebase;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.jobs.BaseJob;
 import com.mobi.utanow.models.Event;
@@ -65,6 +66,12 @@ public class AppModule
                 .build();
 
         return new JobManager(mApplication, config);
+    }
+
+    @Provides
+    @Singleton
+    public Firebase firebase(){
+        return new Firebase("https://uta-now.firebaseio.com/");
     }
 
     @Provides
