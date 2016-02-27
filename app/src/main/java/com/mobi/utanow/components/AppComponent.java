@@ -1,6 +1,7 @@
 package com.mobi.utanow.components;
 
 import com.mobi.utanow.SplashActivity;
+import com.mobi.utanow.createevent.CreateEventActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
 import com.mobi.utanow.login.LoginActivity;
 import com.mobi.utanow.modules.AppModule;
@@ -18,6 +19,10 @@ public interface AppComponent
 {
     void inject(EventListActivity activity);
     void inject(SplashActivity activity);
+<<<<<<< HEAD
     void inject(LoginActivity activity);
+=======
+    void inject(CreateEventActivity activity);
+>>>>>>> ee75279a70a246070b9d8a0223cd7d951a6bfd21
 }
 

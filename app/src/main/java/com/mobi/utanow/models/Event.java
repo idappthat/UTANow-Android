@@ -21,6 +21,8 @@ public class Event {
         this.organization = organization;
         this.image = image;
     }
+    public Event(){
+    }
 
     public String getTitle() {
         return title;

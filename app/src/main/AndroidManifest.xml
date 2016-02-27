@@ -49,7 +49,8 @@
             android:name=".createevent.CreateEventActivity"
             android:label="@string/title_activity_create_event"
             android:parentActivityName=".eventslist.EventListActivity"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name="com.mobi.utanow.eventdetails.EventDetailsActivity"
             android:label="@string/event_details">

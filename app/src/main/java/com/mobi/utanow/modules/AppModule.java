@@ -70,8 +70,13 @@ public class AppModule
 
     @Provides
     @Singleton
+<<<<<<< HEAD
     public Firebase firebase() {
         return  new Firebase("https://uta-now.firebaseio.com/");
+=======
+    public Firebase firebase(){
+        return new Firebase("https://uta-now.firebaseio.com/");
+>>>>>>> ee75279a70a246070b9d8a0223cd7d951a6bfd21
     }
 
     @Provides

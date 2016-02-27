@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".createevent.CreateEventActivity"
-    tools:showIn="@layout/activity_create_event">
-
-</RelativeLayout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".createevent.CreateEventActivity"
+        tools:showIn="@layout/activity_create_event"
+        android:orientation="vertical">
+        <EditText
+            android:id="@+id/add_event_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Event Title"
+            android:inputType="textCapSentences|textAutoCorrect"
+            android:maxLength="40"
+            android:lines="1" />
+        <EditText
+            android:id="@+id/add_event_organization"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Organization Name"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="1"/>
+        <EditText
+            android:id="@+id/add_event_description"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="10"
+            android:maxLength="400"
+            android:hint="Event Description"/>
+</LinearLayout>
