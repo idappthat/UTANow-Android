@@ -10,6 +10,8 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +20,14 @@ import android.widget.ImageView;
 
 import com.mobi.utanow.R;
 import com.mobi.utanow.helpers.CircleTransform;
+import com.mobi.utanow.helpers.CustomLinearLayoutManager;
+import com.mobi.utanow.models.Comment;
+import com.mobi.utanow.models.Event;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -34,6 +41,9 @@ public class EventDetailsActivity extends AppCompatActivity{
     ImageView groupImage, toolbarHeader;
     CircleTransform transformer;
     Intent intent;
+    List<Comment> commentList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,11 +55,32 @@ public class EventDetailsActivity extends AppCompatActivity{
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setVisibility(View.VISIBLE);
 
         intent = getIntent();
 
         initCollapsingToolBar();
         initData(intent);
+
+        fakeData();
+        EventCommentsAdapters adapter = new EventCommentsAdapters(this,commentList);
+        RecyclerView commentList = (RecyclerView) findViewById(R.id.comments_recycler_view);
+        commentList.setAdapter(adapter);
+
+
+        CustomLinearLayoutManager linearLayoutManager = new CustomLinearLayoutManager(this);
+
+        commentList.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.setScrollable(true);
+    }
+
+    public void fakeData(){
+        commentList = new ArrayList<>();
+        commentList.add(new Comment("test","test"));
+        commentList.add(new Comment("test1","test1"));
+        commentList.add(new Comment("test2","test2"));
+        commentList.add(new Comment("test3","test3"));
+
 
     }
     public void initCollapsingToolBar(){

@@ -120,6 +120,8 @@ public class EventListActivity extends AppCompatActivity
         Event e1 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/K32XT35.png");
         Event e2 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/aZOgXw7.jpg");
         Event e3 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/7xYpSBK.jpg");
+        Event e4 = new Event("Fun", "Doing cool stuff", "The club", "http://i.imgur.com/7xYpSBK.jpg");
+
 
 
         mAdapter.addEvent(e1, 0);
