@@ -91,8 +91,7 @@ public class EventListActivity extends AppCompatActivity
         mEventBus.unregister(this);
     }
 
-    private void initRecyclerView()
-    {
+    private void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.eventList);
         context = mRecyclerView.getContext();
         mAdapter = new EventsAdapter(context);
@@ -117,7 +116,7 @@ public class EventListActivity extends AppCompatActivity
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Event event= dataSnapshot.getValue(Event.class);
+                Event event = dataSnapshot.getValue(Event.class);
                 mAdapter.removeEvent(event);
             }
 

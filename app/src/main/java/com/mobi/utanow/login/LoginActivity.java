@@ -26,7 +26,10 @@ import com.mobi.utanow.R;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.eventdetails.EventDetailsActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
+import com.mobi.utanow.models.User;
+import com.mobi.utanow.models.UserInfo;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -65,14 +68,13 @@ public class LoginActivity extends AppCompatActivity {
         fbLoginButton = (LoginButton) findViewById(R.id.login_button);
         skipButton = (Button) findViewById(R.id.skip_login);
 
-        String[] perms = new String[] {"public_profile", "email", "user_photos", "user_events", "user_managed_groups"};
+        String[] perms = new String[] {"public_profile", "email", "user_photos", "user_events", "user_managed_groups", "user_birthday"};
 
         fbLoginButton.setReadPermissions(Arrays.asList(perms));
         fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 onFacebookAccessTokenChange(loginResult.getAccessToken());
-                requestUserData(loginResult.getAccessToken());
             }
 
             @Override
@@ -97,33 +99,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void requestUserData(AccessToken token) {
-        GraphRequest request = GraphRequest.newMeRequest(
-                token,
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        Log.d("Data", object.toString());
-
-                        Map<String, String> userMap = new HashMap<>();
-                        Map<String, String> userInfoMap = new HashMap<>();
-
-                        
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,link,birthday,email,gender");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
-
-    private void onFacebookAccessTokenChange(AccessToken token) {
+    private void onFacebookAccessTokenChange(final AccessToken token) {
         if (token != null) {
             mFirebase.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     //user logged in correctly
+                    requestUserData(token, authData);
+
                     Intent intent = new Intent(context, EventListActivity.class);
                     startActivity(intent);
                 }
@@ -138,6 +121,56 @@ public class LoginActivity extends AppCompatActivity {
         /* Logged out of Facebook so do a logout from the Firebase app */
             mFirebase.unauth();
         }
+    }
+
+    private void requestUserData(final AccessToken token, final AuthData authData) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        User user = new User();
+                        UserInfo userInfo = new UserInfo();
+
+                        try {
+                            String uuid = authData.getUid();
+                            String email = object.getString("email");
+                            String name = object.getString("name");
+                            String gender = object.getString("gender");
+                            String birthday = object.getString("birthday");
+                            String id = object.getString("id");
+                            String imageUrl = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                            String fbToken = token.getToken();
+                            long expires = authData.getExpires();
+                            String provider = authData.getProvider();
+
+                            user.setEmail(email);
+                            user.setName(name);
+                            user.setProfileImageUrl(imageUrl);
+
+                            userInfo.setName(name);
+                            userInfo.setProfileImageUrl(imageUrl);
+                            userInfo.setEmail(email);
+                            userInfo.setFbId(id);
+                            userInfo.setFbToken(fbToken);
+                            userInfo.setGender(gender);
+                            userInfo.setFbTokenExpires(expires);
+                            userInfo.setProvider(provider);
+                            userInfo.setBirthday(birthday);
+
+                            mFirebase.child("users").child(uuid).setValue(user);
+                            mFirebase.child("userInfo").child(uuid).setValue(userInfo);
+                        }
+                        catch (JSONException e) {
+                            Log.e("LOGIN", "onCompleted: ", e);
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,gender,picture.type(large),birthday");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     @Override

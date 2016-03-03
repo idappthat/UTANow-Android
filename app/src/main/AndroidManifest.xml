@@ -53,7 +53,8 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <activity android:name="com.mobi.utanow.eventdetails.EventDetailsActivity"
-            android:label="@string/event_details">
+            android:label="@string/event_details"
+            android:parentActivityName=".eventslist.EventListActivity">
         </activity>
 
 
