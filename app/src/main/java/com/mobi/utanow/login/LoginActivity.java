@@ -14,6 +14,8 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -24,7 +26,12 @@ import com.mobi.utanow.R;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.eventdetails.EventDetailsActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
+
+import org.json.JSONObject;
+
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -58,13 +65,14 @@ public class LoginActivity extends AppCompatActivity {
         fbLoginButton = (LoginButton) findViewById(R.id.login_button);
         skipButton = (Button) findViewById(R.id.skip_login);
 
-        String[] perms = new String[] {"public_profile", "email", "user_photos"};
+        String[] perms = new String[] {"public_profile", "email", "user_photos", "user_events", "user_managed_groups"};
+
         fbLoginButton.setReadPermissions(Arrays.asList(perms));
-        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-        {
+        fbLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 onFacebookAccessTokenChange(loginResult.getAccessToken());
+                requestUserData(loginResult.getAccessToken());
             }
 
             @Override
@@ -80,15 +88,34 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        skipButton.setOnClickListener(new View.OnClickListener()
-        {
+        skipButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Intent intent = new Intent(context, EventListActivity.class);
                 startActivity(intent);
             }
         });
+    }
+
+    private void requestUserData(AccessToken token) {
+        GraphRequest request = GraphRequest.newMeRequest(
+                token,
+                new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject object, GraphResponse response) {
+                        Log.d("Data", object.toString());
+
+                        Map<String, String> userMap = new HashMap<>();
+                        Map<String, String> userInfoMap = new HashMap<>();
+
+                        
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,link,birthday,email,gender");
+        request.setParameters(parameters);
+        request.executeAsync();
     }
 
     private void onFacebookAccessTokenChange(AccessToken token) {

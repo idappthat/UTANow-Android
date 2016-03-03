@@ -37,6 +37,7 @@ public class CreateEventActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.hide();
         fab.setOnClickListener(new View.OnClickListener() {
@@ -51,7 +52,6 @@ public class CreateEventActivity extends AppCompatActivity {
         description = (EditText) findViewById(R.id.add_event_description);
 
 
-
         //Text Listeners for the action bar
         eventTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,7 +61,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 //Check if it is valid if it is show the a send button
                 //if not hide the send button
-                if (count>0) {
+                if (count > 0) {
                     eventTitleBol =true;
                 } else {
                     eventTitleBol=false;
@@ -124,7 +124,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
 
-    private void addNewEvent(){
+    private void addNewEvent() {
         Event myEvent = new Event(eventTitle.getText().toString(),
                 description.getText().toString(),
                 organization.getText().toString(),

@@ -5,7 +5,7 @@ package com.mobi.utanow.models;
  */
 public class Event {
     String title;
-    String image;
+    String imgUrl;
     String organizationImage;
     String organization;
     String description;
@@ -19,17 +19,15 @@ public class Event {
         this.title = title;
         this.description = description;
         this.organization = organization;
-        this.image = image;
-    }
-    public Event(){
+        this.imgUrl = image;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getImage() {
-        return image;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
     public String getOrganization() {

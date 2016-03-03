@@ -8,11 +8,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobi.utanow.R;
 import com.mobi.utanow.eventdetails.EventDetailsActivity;
+import com.mobi.utanow.map.MapBoxActivity;
 import com.mobi.utanow.models.Event;
 import com.squareup.picasso.Picasso;
 
@@ -70,6 +72,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         TextView mOrg;
         String url;
         Event mEvent;
+        ImageButton mImageButton;
 
         public EventHolder(View itemView)
         {
@@ -77,16 +80,19 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
             mImage = (ImageView) itemView.findViewById(R.id.im_event);
             mTitle = (TextView) itemView.findViewById(R.id.tv_title);
             mOrg = (TextView) itemView.findViewById(R.id.tv_org);
+            mImageButton = (ImageButton) itemView.findViewById(R.id.ib_map);
+
             itemView.setOnClickListener(this);
+            mImageButton.setOnClickListener(this);
         }
 
         public void bind(Event model)
         {
             mEvent = model;
             Picasso.with(itemView.getContext())
-                    .load(model.getImage())
+                    .load(model.getImgUrl())
                     .into(mImage);
-            url = model.getImage();
+            url = model.getImgUrl();
             mTitle.setText(model.getTitle());
             mOrg.setText(model.getOrganization());
         }
@@ -94,12 +100,20 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(v.getContext(),EventDetailsActivity.class);
-            intent.putExtra(EventDetailsActivity.ORG_NAME, mOrg.getText().toString());
-            intent.putExtra(EventDetailsActivity.EVENT_NAME, mTitle.getText().toString());
-            intent.putExtra(EventDetailsActivity.EVENT_DES, mEvent.getDescription());
-            intent.putExtra(EventDetailsActivity.IMAGE_URL ,url);
-            v.getContext().startActivity(intent);
+            if(v == itemView) {
+                Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
+                intent.putExtra(EventDetailsActivity.ORG_NAME, mOrg.getText().toString());
+                intent.putExtra(EventDetailsActivity.EVENT_NAME, mTitle.getText().toString());
+                intent.putExtra(EventDetailsActivity.EVENT_DES, mEvent.getDescription());
+                intent.putExtra(EventDetailsActivity.IMAGE_URL ,url);
+                v.getContext().startActivity(intent);
+            }
+            else if(v.getId() == R.id.im_event) {
+                Intent intent = new Intent(v.getContext(), MapBoxActivity.class);
+                v.getContext().startActivity(intent);
+            }
+
+
         }
     }
 }

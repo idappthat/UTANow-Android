@@ -100,6 +100,7 @@ public class EventListActivity extends AppCompatActivity
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        mFirebase.child("events").keepSynced(true);
 
         mFirebase.child("events").addChildEventListener(new ChildEventListener() {
             @Override
@@ -149,7 +150,7 @@ public class EventListActivity extends AppCompatActivity
         });
 
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open,  R.string.drawer_close);
-        mDrawerLayout.setDrawerListener(mToggle);
+        mDrawerLayout.addDrawerListener(mToggle);
     }
 
     private void selectDrawerItem(MenuItem item)
@@ -182,6 +183,7 @@ public class EventListActivity extends AppCompatActivity
 
             case R.id.logOut:
                 LoginManager.getInstance().logOut();
+                mFirebase.unauth();
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
