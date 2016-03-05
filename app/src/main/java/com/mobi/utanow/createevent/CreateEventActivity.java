@@ -148,7 +148,8 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
     private void addImage(){
-        /*Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        /* THIS CODE LETS THE USER SELECT A DIFFERENT APPLICATION TO PICK PICTURES FROM. THE CURRENT CODE USES THE DEFAULT PICKER
+        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
         getIntent.setType("image/*");
 
         Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
