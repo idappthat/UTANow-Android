@@ -31,29 +31,46 @@
             android:text="Upload Image"
             android:id="@+id/imageNameText"/>
         </LinearLayout>
-            <EditText
-                android:id="@+id/add_event_title"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Event Title"
-                android:inputType="textCapSentences|textAutoCorrect"
-                android:maxLength="40"
-                android:lines="1" />
-            <EditText
-                android:id="@+id/add_event_organization"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:hint="Organization Name"
-                android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-                android:lines="1"/>
-            <EditText
-                android:id="@+id/add_event_description"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
-                android:lines="10"
-                android:maxLength="400"
-                android:hint="Event Description"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Time"
+                android:onClick="showTimePickerDialog" />
+            <Button
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Start Time"
+                android:onClick="showTimePickerDialog" />
+        </LinearLayout>
+        <EditText
+            android:id="@+id/add_event_title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Event Title"
+            android:inputType="textCapSentences|textAutoCorrect"
+            android:maxLength="40"
+            android:lines="1" />
+        <EditText
+            android:id="@+id/add_event_organization"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:hint="Organization Name"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="1"/>
+        <EditText
+            android:id="@+id/add_event_description"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:inputType="textCapSentences|textAutoCorrect|textMultiLine"
+            android:lines="10"
+            android:maxLength="400"
+            android:hint="Event Description"/>
     </LinearLayout>
 </ScrollView>
-
