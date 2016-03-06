@@ -68,16 +68,16 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         TextView mTitle;
         TextView mOrg;
         Event mEvent;
-        ImageView mMapButton;
-        ImageView mBookmarkButton;
+        ImageButton mMapButton;
+        ImageButton mBookmarkButton;
 
         public EventHolder(View itemView) {
             super(itemView);
             mImage = (ImageView) itemView.findViewById(R.id.im_event);
             mTitle = (TextView) itemView.findViewById(R.id.tv_title);
             mOrg = (TextView) itemView.findViewById(R.id.tv_org);
-            mMapButton = (ImageView) itemView.findViewById(R.id.ib_map);
-            mBookmarkButton = (ImageView) itemView.findViewById(R.id.ib_bookmark);
+            mMapButton = (ImageButton) itemView.findViewById(R.id.ib_map);
+            mBookmarkButton = (ImageButton) itemView.findViewById(R.id.ib_bookmark);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -123,8 +123,6 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 
                 case R.id.ib_bookmark:
                     //TODO: impl
-                    Snackbar.make(itemView.getRootView(), "Add favorites function", Snackbar.LENGTH_SHORT);
-
             }
         }
     }

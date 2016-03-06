@@ -202,6 +202,9 @@ public class EventListActivity extends AppCompatActivity
                 break;
 
             case R.id.logOut:
+                mPrefs.edit().remove("name").commit();
+                mPrefs.edit().remove("email").commit();
+                mPrefs.edit().remove("picture").commit();
                 LoginManager.getInstance().logOut();
                 mFirebase.unauth();
                 Intent intent = new Intent(this, LoginActivity.class);

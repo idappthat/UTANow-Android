@@ -52,9 +52,7 @@ public class EventDetailsActivity extends AppCompatActivity {
 
     Toolbar toolbar;
     CollapsingToolbarLayout collapsingToolbar;
-    Bitmap image;
     ImageView groupImage, toolbarHeader;
-    CircleTransform transformer;
     Intent intent;
     TextView mDescrption;
     List<Comment> commentList;
