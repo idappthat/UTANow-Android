@@ -2,6 +2,7 @@ package com.mobi.utanow.login;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -42,10 +43,10 @@ import javax.inject.Inject;
  * Created by Anthony on 11/13/15.
  */
 public class LoginActivity extends AppCompatActivity {
-
-
     @Inject
     Firebase mFirebase;
+    @Inject
+    SharedPreferences mPrefs;
 
     LoginButton fbLoginButton;
     Button skipButton;
@@ -106,9 +107,6 @@ public class LoginActivity extends AppCompatActivity {
                 public void onAuthenticated(AuthData authData) {
                     //user logged in correctly
                     requestUserData(token, authData);
-
-                    Intent intent = new Intent(context, EventListActivity.class);
-                    startActivity(intent);
                 }
 
                 @Override
@@ -144,6 +142,10 @@ public class LoginActivity extends AppCompatActivity {
                             long expires = authData.getExpires();
                             String provider = authData.getProvider();
 
+                            mPrefs.edit().putString("email", email).commit();
+                            mPrefs.edit().putString("name", name).commit();
+                            mPrefs.edit().putString("picture", imageUrl).commit();
+
                             user.setEmail(email);
                             user.setName(name);
                             user.setProfileImageUrl(imageUrl);
@@ -160,6 +162,10 @@ public class LoginActivity extends AppCompatActivity {
 
                             mFirebase.child("users").child(uuid).setValue(user);
                             mFirebase.child("userInfo").child(uuid).setValue(userInfo);
+
+
+                            Intent intent = new Intent(context, EventListActivity.class);
+                            startActivity(intent);
                         }
                         catch (JSONException e) {
                             Log.e("LOGIN", "onCompleted: ", e);

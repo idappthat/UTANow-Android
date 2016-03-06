@@ -1,6 +1,8 @@
 package com.mobi.utanow.modules;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.firebase.client.Firebase;
@@ -22,33 +24,28 @@ import dagger.Provides;
  * Created by anthony on 2/6/16.
  */
 @Module
-public class AppModule
-{
+public class AppModule {
     UtaNow mApplication;
 
-    public AppModule(UtaNow application)
-    {
+    public AppModule(UtaNow application) {
         mApplication = application;
     }
 
     @Provides
     @Singleton
-    Application providesApplication()
-    {
+    Application providesApplication() {
         return mApplication;
     }
 
     @Provides
     @Singleton
-    public NotificationManagerCompat notificationCompat()
-    {
+    public NotificationManagerCompat notificationCompat() {
         return NotificationManagerCompat.from(mApplication);
     }
 
     @Provides
     @Singleton
-    public JobManager jobManager()
-    {
+    public JobManager jobManager() {
         Configuration config = new Configuration.Builder(mApplication)
                 .consumerKeepAlive(45)
                 .maxConsumerCount(3)
@@ -76,8 +73,13 @@ public class AppModule
 
     @Provides
     @Singleton
-    public Bus eventBus()
-    {
+    public Bus eventBus() {
         return new Bus();
+    }
+
+    @Provides
+    @Singleton
+    public SharedPreferences sharedPrefs() {
+        return mApplication.getSharedPreferences("UTANOW", Context.MODE_PRIVATE);
     }
 }

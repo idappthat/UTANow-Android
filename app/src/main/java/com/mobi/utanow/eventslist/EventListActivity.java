@@ -2,10 +2,12 @@ package com.mobi.utanow.eventslist;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,7 +19,11 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -28,11 +34,13 @@ import com.mobi.utanow.R;
 import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.bookmarks.BookMarksActivity;
 import com.mobi.utanow.createevent.CreateEventActivity;
+import com.mobi.utanow.helpers.CircleTransform;
 import com.mobi.utanow.login.LoginActivity;
 import com.mobi.utanow.models.Event;
 import com.mobi.utanow.organizations.OrganizationsActivity;
 import com.mobi.utanow.settings.SettingsActivity;
 import com.squareup.otto.Bus;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
@@ -47,6 +55,8 @@ public class EventListActivity extends AppCompatActivity
     Bus mEventBus;
     @Inject
     Firebase mFirebase;
+    @Inject
+    SharedPreferences mPrefs;
 
     DrawerLayout mDrawerLayout;
     Toolbar toolbar;
@@ -56,8 +66,7 @@ public class EventListActivity extends AppCompatActivity
     Context context;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_list);
 
@@ -71,22 +80,19 @@ public class EventListActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
         mEventBus.register(this);
     }
 
     @Override
-    protected void onStop()
-    {
+    protected void onStop() {
         super.onStop();
         mEventBus.unregister(this);
     }
@@ -132,17 +138,34 @@ public class EventListActivity extends AppCompatActivity
         });
     }
 
-    private void initDrawer()
-    {
+    private void initDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         NavigationView navigationView = (NavigationView) findViewById(R.id.navView);
+        View mHeader = navigationView.getHeaderView(0);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener()
-        {
+        ImageView mProfileImg = (ImageView) mHeader.findViewById(R.id.im_drawer);
+        TextView mName = (TextView) mHeader.findViewById(R.id.tv_name);
+        TextView mEmail = (TextView) mHeader.findViewById(R.id.tv_email);
+
+        mName.setText(mPrefs.getString("name", ""));
+        mEmail.setText(mPrefs.getString("email", ""));
+
+        try {
+            Picasso.with(this)
+                    .load(mPrefs.getString("picture", ""))
+                    .transform(new CircleTransform())
+                    .error(ContextCompat.getDrawable(this, R.drawable.ic_account_circle_24dp))
+                    .placeholder(ContextCompat.getDrawable(this, R.drawable.ic_account_circle_24dp))
+                    .into(mProfileImg);
+
+        }
+        catch (Exception e) {
+            Log.e("Drawer", e.getMessage());
+        }
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem)
-
-            {
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
                 selectDrawerItem(menuItem);
                 return true;
             }
@@ -152,10 +175,8 @@ public class EventListActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mToggle);
     }
 
-    private void selectDrawerItem(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
+    private void selectDrawerItem(MenuItem item) {
+        switch (item.getItemId()) {
             case R.id.settings:
                 Intent i = new Intent(this, SettingsActivity.class);
                 startActivity(i);
@@ -186,30 +207,25 @@ public class EventListActivity extends AppCompatActivity
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-
         }
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        if (mToggle.onOptionsItemSelected(item))
-        {
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (mToggle.onOptionsItemSelected(item)) {
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onPostCreate(Bundle savedInstanceState)
-    {
+    protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         mToggle.syncState();
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
+    public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mToggle.onConfigurationChanged(newConfig);
     }

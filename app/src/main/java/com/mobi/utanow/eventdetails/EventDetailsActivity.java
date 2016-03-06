@@ -41,6 +41,7 @@ import javax.inject.Inject;
 public class EventDetailsActivity extends AppCompatActivity {
 
     public static String IMAGE_URL = "image";
+    public static String ORG_IMG ="orgimg";
     public static String ORG_NAME = "orgname";
     public static String EVENT_NAME = "eventname";
     public static String EVENT_DES = "eventdes";
@@ -113,7 +114,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public void initData(Intent intent) {
 
         Picasso.with(this)
-                .load(intent.getStringExtra(IMAGE_URL))
+                .load(intent.getStringExtra(ORG_IMG))
                 .transform(new CircleTransform())
                 .into(groupImage);
 

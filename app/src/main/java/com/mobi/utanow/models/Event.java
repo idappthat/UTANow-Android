@@ -6,9 +6,10 @@ package com.mobi.utanow.models;
 public class Event {
     String title;
     String imgUrl;
-    String organizationImage;
+    String organizationImg;
     String organization;
     String description;
+    String coords;
 
 
     public Event() {
@@ -38,7 +39,11 @@ public class Event {
         return description;
     }
 
-    public String getOrginaztionImage() {
-        return organizationImage;
+    public String getCoords() {
+        return coords;
+    }
+
+    public String getOrganizationImg() {
+        return organizationImg;
     }
 }

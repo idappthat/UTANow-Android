@@ -1,8 +1,9 @@
 package com.mobi.utanow.eventslist;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +15,8 @@ import android.widget.TextView;
 
 import com.mobi.utanow.R;
 import com.mobi.utanow.eventdetails.EventDetailsActivity;
-import com.mobi.utanow.map.MapBoxActivity;
 import com.mobi.utanow.models.Event;
 import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,34 +63,46 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
         notifyItemRemoved(eventList.indexOf(event));
     }
 
-    public static class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-    {
+    public static class EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView mImage;
         TextView mTitle;
         TextView mOrg;
-        String url;
         Event mEvent;
-        ImageButton mImageButton;
+        ImageView mMapButton;
+        ImageView mBookmarkButton;
 
-        public EventHolder(View itemView)
-        {
+        public EventHolder(View itemView) {
             super(itemView);
             mImage = (ImageView) itemView.findViewById(R.id.im_event);
             mTitle = (TextView) itemView.findViewById(R.id.tv_title);
             mOrg = (TextView) itemView.findViewById(R.id.tv_org);
-            mImageButton = (ImageButton) itemView.findViewById(R.id.ib_map);
+            mMapButton = (ImageView) itemView.findViewById(R.id.ib_map);
+            mBookmarkButton = (ImageView) itemView.findViewById(R.id.ib_bookmark);
 
-            itemView.setOnClickListener(this);
-            mImageButton.setOnClickListener(this);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
+                    intent.putExtra(EventDetailsActivity.ORG_NAME, mEvent.getOrganization());
+                    intent.putExtra(EventDetailsActivity.EVENT_NAME, mEvent.getTitle());
+                    intent.putExtra(EventDetailsActivity.EVENT_DES, mEvent.getDescription());
+                    intent.putExtra(EventDetailsActivity.IMAGE_URL, mEvent.getImgUrl());
+                    intent.putExtra(EventDetailsActivity.ORG_IMG, mEvent.getOrganizationImg());
+                    v.getContext().startActivity(intent);
+                }
+            });
+
+            mMapButton.setOnClickListener(this);
+            mBookmarkButton.setOnClickListener(this);
         }
 
-        public void bind(Event model)
-        {
+        public void bind(Event model) {
             mEvent = model;
+
             Picasso.with(itemView.getContext())
                     .load(model.getImgUrl())
                     .into(mImage);
-            url = model.getImgUrl();
+
             mTitle.setText(model.getTitle());
             mOrg.setText(model.getOrganization());
         }
@@ -100,20 +110,22 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolde
 
         @Override
         public void onClick(View v) {
-            if(v == itemView) {
-                Intent intent = new Intent(v.getContext(), EventDetailsActivity.class);
-                intent.putExtra(EventDetailsActivity.ORG_NAME, mOrg.getText().toString());
-                intent.putExtra(EventDetailsActivity.EVENT_NAME, mTitle.getText().toString());
-                intent.putExtra(EventDetailsActivity.EVENT_DES, mEvent.getDescription());
-                intent.putExtra(EventDetailsActivity.IMAGE_URL ,url);
-                v.getContext().startActivity(intent);
-            }
-            else if(v.getId() == R.id.im_event) {
-                Intent intent = new Intent(v.getContext(), MapBoxActivity.class);
-                v.getContext().startActivity(intent);
-            }
+            switch (v.getId()) {
+                case R.id.ib_map:
+                    Uri gmmIntentUri = Uri.parse("geo:0,0?q=" + mEvent.getCoords());
+                    Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                    mapIntent.setPackage("com.google.android.apps.maps");
 
+                    if (mapIntent.resolveActivity(itemView.getContext().getPackageManager()) != null) {
+                        v.getContext().startActivity(mapIntent);
+                    }
+                    break;
 
+                case R.id.ib_bookmark:
+                    //TODO: impl
+                    Snackbar.make(itemView.getRootView(), "Add favorites function", Snackbar.LENGTH_SHORT);
+
+            }
         }
     }
 }
