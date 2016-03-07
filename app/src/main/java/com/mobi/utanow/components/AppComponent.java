@@ -1,8 +1,11 @@
 package com.mobi.utanow.components;
 
 import com.mobi.utanow.SplashActivity;
+import com.mobi.utanow.bookmarks.BookMarksActivity;
+import com.mobi.utanow.bookmarks.BookmarksAdapter;
 import com.mobi.utanow.createevent.CreateEventActivity;
 import com.mobi.utanow.eventslist.EventListActivity;
+import com.mobi.utanow.eventslist.EventsAdapter;
 import com.mobi.utanow.login.LoginActivity;
 import com.mobi.utanow.modules.AppModule;
 
@@ -20,5 +23,8 @@ public interface AppComponent {
     void inject(SplashActivity activity);
     void inject(LoginActivity activity);
     void inject(CreateEventActivity activity);
+    void inject(BookMarksActivity activity);
+    void inject(EventsAdapter adapter);
+    void inject(BookmarksAdapter adapter);
 }
 

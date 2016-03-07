@@ -10,6 +10,7 @@ public class Event {
     String organization;
     String description;
     String coords;
+    String key;
 
 
     public Event() {
@@ -45,5 +46,13 @@ public class Event {
 
     public String getOrganizationImg() {
         return organizationImg;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }

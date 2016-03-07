@@ -145,6 +145,7 @@ public class LoginActivity extends AppCompatActivity {
                             mPrefs.edit().putString("email", email).commit();
                             mPrefs.edit().putString("name", name).commit();
                             mPrefs.edit().putString("picture", imageUrl).commit();
+                            mPrefs.edit().putString("uuid", uuid).commit();
 
                             user.setEmail(email);
                             user.setName(name);

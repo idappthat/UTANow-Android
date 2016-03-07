@@ -100,7 +100,8 @@ public class EventListActivity extends AppCompatActivity
     private void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.eventList);
         context = mRecyclerView.getContext();
-        mAdapter = new EventsAdapter(context);
+        mAdapter = new EventsAdapter(getApplication(), mRecyclerView);
+
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -111,6 +112,7 @@ public class EventListActivity extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Event event = dataSnapshot.getValue(Event.class);
+                event.setKey(dataSnapshot.getKey());
                 mAdapter.addEvent(event, 0);
                 mRecyclerView.scrollToPosition(0);
             }

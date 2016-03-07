@@ -42,28 +42,28 @@ public class AppModule {
     public NotificationManagerCompat notificationCompat() {
         return NotificationManagerCompat.from(mApplication);
     }
-
-    @Provides
-    @Singleton
-    public JobManager jobManager() {
-        Configuration config = new Configuration.Builder(mApplication)
-                .consumerKeepAlive(45)
-                .maxConsumerCount(3)
-                .minConsumerCount(1)
-                .injector(new DependencyInjector()
-                {
-                    @Override
-                    public void inject(Job job)
-                    {
-                        if (job instanceof BaseJob) {
-                            ((BaseJob) job).inject(mApplication.getAppComponent());
-                        }
-                    }
-                })
-                .build();
-
-        return new JobManager(mApplication, config);
-    }
+//
+//    @Provides
+//    @Singleton
+//    public JobManager jobManager() {
+//        Configuration config = new Configuration.Builder(mApplication)
+//                .consumerKeepAlive(45)
+//                .maxConsumerCount(3)
+//                .minConsumerCount(1)
+//                .injector(new DependencyInjector()
+//                {
+//                    @Override
+//                    public void inject(Job job)
+//                    {
+//                        if (job instanceof BaseJob) {
+//                            ((BaseJob) job).inject(mApplication.getAppComponent());
+//                        }
+//                    }
+//                })
+//                .build();
+//
+//        return new JobManager(mApplication, config);
+//    }
 
     @Provides
     @Singleton
