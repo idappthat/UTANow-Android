@@ -34,6 +34,7 @@ import javax.inject.Inject;
 
 /**
  * Created by anthony on 2/6/16.
+ *
  */
 public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.EventHolder> {
 
