@@ -1,18 +1,28 @@
 package com.mobi.utanow.createevent;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.TimePickerDialog;
+import android.app.FragmentContainer;
+
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -24,17 +34,31 @@ import com.mobi.utanow.UtaNow;
 import com.mobi.utanow.models.Event;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 import javax.inject.Inject;
 
-public class CreateEventActivity extends AppCompatActivity {
+public class CreateEventActivity extends AppCompatActivity implements
+        TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener{
+
 
     static final int PICK_IMAGE = 1;
     FloatingActionButton fab;
     ImageButton attachButton;
     EditText eventTitle, organization,description;
     Boolean eventTitleBol=false,organizationBol=false, descriptionBol=false;
+    Button btnStartTime,btnEndTime,btnDatePicker;
+    Calendar startTimeWDate,endTime;
+
+
+    public enum TimeChanging{//enum made to pass if start time or end time is being changed.
+        START,END
+    }
+    TimeChanging timeChanging;
     @Inject
     Firebase mFirebase;
     TextView imageLocation;
@@ -61,6 +85,55 @@ public class CreateEventActivity extends AppCompatActivity {
         eventTitle = (EditText) findViewById(R.id.add_event_title);
         organization = (EditText) findViewById(R.id.add_event_organization);
         description = (EditText) findViewById(R.id.add_event_description);
+        btnStartTime = (Button) findViewById(R.id.btnStartTime);
+        btnEndTime = (Button) findViewById(R.id.btnEndTime);
+        btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
+
+
+        //Time/Date Picker Stuff
+        btnStartTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Calendar now = Calendar.getInstance();
+                TimePickerDialog tpd = TimePickerDialog.newInstance(
+                        CreateEventActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        false//false 12 hour true 24 hour
+                );
+                timeChanging=TimeChanging.START;
+                tpd.show(getFragmentManager(), "Pick Start Time");
+            }
+        });
+        btnEndTime.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Calendar now = Calendar.getInstance();
+                TimePickerDialog tpd = TimePickerDialog.newInstance(
+                        CreateEventActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        false//false 12 hour true 24 hour
+                );
+                timeChanging=TimeChanging.END;
+                tpd.show(getFragmentManager(), "Pick End Time");
+            }
+        });
+        btnDatePicker.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        CreateEventActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show(getFragmentManager(), "Pick Date");
+            }
+        });
+
+
 
 
 
@@ -141,8 +214,6 @@ public class CreateEventActivity extends AppCompatActivity {
     }
 
 
-
-
     private void addNewEvent(){
         Event myEvent = new Event(eventTitle.getText().toString(),
                 description.getText().toString(),
@@ -151,6 +222,8 @@ public class CreateEventActivity extends AppCompatActivity {
         mFirebase.child("events").push().setValue(myEvent);
         finish();
     }
+
+
 
 
     private void addImage(){
@@ -187,25 +260,21 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-
-            // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+        if(timeChanging==TimeChanging.START){//enum made to pass which button is being changed. I'm not sure how else to pass the argument
+            startTimeWDate.set(Calendar.MINUTE,minute);
+            startTimeWDate.set(Calendar.HOUR,hourOfDay);
         }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            // Do something with the time chosen by the user
+        if(timeChanging==TimeChanging.END){
+            endTime.set(Calendar.MINUTE,minute);
+            endTime.set(Calendar.HOUR,hourOfDay);
         }
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        startTimeWDate.set(year,monthOfYear,dayOfMonth);
     }
 }
 

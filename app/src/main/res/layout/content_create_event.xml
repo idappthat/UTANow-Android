@@ -35,19 +35,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <Button
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Start Time"
-                android:onClick="showTimePickerDialog" />
+                android:layout_weight="1"
+                android:text="Date"
+                android:textAlignment="center"
+                android:id="@+id/btnDatePicker"
+                />
             <Button
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Start Time"
-                android:onClick="showTimePickerDialog" />
+                android:onClick="showTimePickerDialog"
+                android:gravity="center_vertical"
+                android:textAlignment="center"
+                android:layout_weight="1"
+                android:id="@+id/btnStartTime"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="End Time"
+                android:onClick="showTimePickerDialog"
+                android:gravity="center_vertical"
+                android:layout_weight="1"
+                android:id="@+id/btnEndTime"/>
         </LinearLayout>
         <EditText
             android:id="@+id/add_event_title"
