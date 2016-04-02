@@ -33,7 +33,7 @@ public class EventCommentsAdapters extends RecyclerView.Adapter<EventCommentsAda
     public EventCommentsAdapters(Context context, List<Comment> list){
         inflater = LayoutInflater.from(context);
         commentList = list;
-        Log.d("test",list.size()+"");
+        //Log.d("test",list.size()+"");
     }
 
     @Override
@@ -50,6 +50,9 @@ public class EventCommentsAdapters extends RecyclerView.Adapter<EventCommentsAda
 
     @Override
     public int getItemCount() {
+        if(commentList.size()>3) {
+            return 3;
+        }
         return commentList.size();
     }
 

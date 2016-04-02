@@ -1,5 +1,6 @@
 package com.mobi.utanow.eventdetails;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +27,7 @@ import com.mobi.utanow.helpers.CircleTransform;
 import com.mobi.utanow.helpers.CustomLinearLayoutManager;
 import com.mobi.utanow.models.Comment;
 import com.mobi.utanow.models.Event;
+import com.mobi.utanow.organizations.OrganizationsActivity;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -56,8 +58,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     Intent intent;
     TextView mDescrption;
     List<Comment> commentList;
-
-
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +68,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         groupImage = (ImageView)findViewById(R.id.group_image);
         mDescrption = (TextView) findViewById(R.id.tv_description);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        context = this;
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setVisibility(View.VISIBLE);
@@ -83,11 +84,18 @@ public class EventDetailsActivity extends AppCompatActivity {
         commentList.setAdapter(adapter);
         commentList.setNestedScrollingEnabled(false);
 
-
         CustomLinearLayoutManager linearLayoutManager = new CustomLinearLayoutManager(this);
 
         commentList.setLayoutManager(linearLayoutManager);
         linearLayoutManager.setScrollable(true);
+
+        groupImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, OrganizationsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void fakeData(){
