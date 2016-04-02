@@ -81,6 +81,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         EventCommentsAdapters adapter = new EventCommentsAdapters(this,commentList);
         RecyclerView commentList = (RecyclerView) findViewById(R.id.comments_recycler_view);
         commentList.setAdapter(adapter);
+        commentList.setNestedScrollingEnabled(false);
 
 
         CustomLinearLayoutManager linearLayoutManager = new CustomLinearLayoutManager(this);
