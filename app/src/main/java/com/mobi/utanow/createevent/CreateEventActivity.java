@@ -80,15 +80,15 @@ public class CreateEventActivity extends AppCompatActivity implements
                 addNewEvent();
             }
         });
-        /*imageLocation = (TextView) findViewById(R.id.imageNameText);
+        imageLocation = (TextView) findViewById(R.id.imageNameText);
         attachButton = (ImageButton) findViewById(R.id.attachButton);
         eventTitle = (EditText) findViewById(R.id.add_event_title);
         organization = (EditText) findViewById(R.id.add_event_organization);
         description = (EditText) findViewById(R.id.add_event_description);
+        btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
         btnStartTime = (Button) findViewById(R.id.btnStartTime);
         btnEndTime = (Button) findViewById(R.id.btnEndTime);
-        btnDatePicker = (Button) findViewById(R.id.btnDatePicker);
-        */
+
 
         //Time/Date Picker Stuff
         btnStartTime.setOnClickListener(new View.OnClickListener(){
