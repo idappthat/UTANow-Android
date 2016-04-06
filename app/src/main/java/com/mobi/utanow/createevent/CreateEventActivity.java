@@ -90,6 +90,9 @@ public class CreateEventActivity extends AppCompatActivity implements
         btnEndTime = (Button) findViewById(R.id.btnEndTime);
 
 
+        startTimeWDate = Calendar.getInstance();
+        endTime = Calendar.getInstance();
+
         //Time/Date Picker Stuff
         btnStartTime.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -215,6 +218,7 @@ public class CreateEventActivity extends AppCompatActivity implements
 
 
     private void addNewEvent(){
+        //TODO: add date information, add picture information
         Event myEvent = new Event(eventTitle.getText().toString(),
                 description.getText().toString(),
                 organization.getText().toString(),
