@@ -12,6 +12,47 @@
         tools:context=".createevent.CreateEventActivity"
         tools:showIn="@layout/activity_create_event"
         android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="40dp">
+        <ImageButton
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_attachment_24dp"
+            android:id="@+id/attachButton"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="16dp"
+            android:text="Attach Picture"
+            android:id="@+id/imageNameText"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Date"
+            android:id="@+id/btnDatePicker"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Start Time"
+            android:id="@+id/btnStartTime"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="End Time"
+            android:id="@+id/btnEndTime"/>
+    </LinearLayout>
         <EditText
             android:id="@+id/add_event_title"
             android:layout_width="match_parent"
