@@ -22,17 +22,12 @@
 
         <activity
             android:name=".login.LoginActivity"
-            android:label="@string/app_name">
-        </activity>
-
+            android:label="@string/app_name"></activity>
         <activity
             android:name=".map.MapBoxActivity"
             android:label="Map Box"
-            android:parentActivityName=".login.LoginActivity">
-        </activity>
-
+            android:parentActivityName=".login.LoginActivity"></activity>
         <activity android:name=".eventslist.EventListActivity" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -43,33 +38,26 @@
             android:label="@string/title_activity_book_marks"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
-
-
         <activity
             android:name=".createevent.CreateEventActivity"
             android:label="@string/title_activity_create_event"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize"/>
-
-        <activity android:name="com.mobi.utanow.eventdetails.EventDetailsActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".eventdetails.EventDetailsActivity"
             android:label="@string/event_details"
-            android:parentActivityName=".eventslist.EventListActivity">
-        </activity>
-
-
+            android:parentActivityName=".eventslist.EventListActivity"></activity>
         <activity
             android:name=".settings.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".organizations.OrganizationsActivity"
             android:label="@string/title_activity_organizations"
             android:parentActivityName=".eventslist.EventListActivity"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -81,8 +69,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".favorites.FavoritesActivity" />
+        <activity
+            android:name=".eventdetails.CommentsActivity"
+            android:label="@string/title_activity_comments"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible"
+            ></activity>
     </application>
 
 </manifest>

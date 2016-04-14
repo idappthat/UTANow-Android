@@ -2,35 +2,27 @@ package com.mobi.utanow.eventdetails;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.Query;
 import com.mobi.utanow.R;
 import com.mobi.utanow.helpers.CircleTransform;
 import com.mobi.utanow.helpers.CustomLinearLayoutManager;
 import com.mobi.utanow.models.Comment;
-import com.mobi.utanow.models.Event;
 import com.mobi.utanow.organizations.OrganizationsActivity;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,6 +39,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     public static String ORG_NAME = "orgname";
     public static String EVENT_NAME = "eventname";
     public static String EVENT_DES = "eventdes";
+    final int ADD_COMMENT_CODE = 1000;
 
 
     @Inject
@@ -59,6 +52,8 @@ public class EventDetailsActivity extends AppCompatActivity {
     TextView mDescrption;
     List<Comment> commentList;
     Context context;
+    AppBarLayout appBarLayout;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +61,7 @@ public class EventDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_event);
 
         groupImage = (ImageView)findViewById(R.id.group_image);
-        mDescrption = (TextView) findViewById(R.id.tv_description);
+        //mDescrption = (TextView) findViewById(R.id.tv_description);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         context = this;
         setSupportActionBar(toolbar);
@@ -75,19 +70,24 @@ public class EventDetailsActivity extends AppCompatActivity {
 
         intent = getIntent();
 
+        appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
+
+        //used to check if toolbar is collapsed or not
+        final int scrollRange = appBarLayout.getTotalScrollRange() ;
+
         initCollapsingToolBar();
         initData(intent);
 
         fakeData();
         EventCommentsAdapters adapter = new EventCommentsAdapters(this,commentList);
-        RecyclerView commentList = (RecyclerView) findViewById(R.id.comments_recycler_view);
+        final RecyclerView commentList = (RecyclerView) findViewById(R.id.comments_recycler_view);
         commentList.setAdapter(adapter);
+
+        final CustomLinearLayoutManager linearLayoutManager = new CustomLinearLayoutManager(this);
+
+        commentList.setLayoutManager(new LinearLayoutManager(this));
+      //  linearLayoutManager.setScrollable(false);
         commentList.setNestedScrollingEnabled(false);
-
-        CustomLinearLayoutManager linearLayoutManager = new CustomLinearLayoutManager(this);
-
-        commentList.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.setScrollable(true);
 
         groupImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,14 +96,61 @@ public class EventDetailsActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                // this will lock the nested recycler view's scrolling until the vertical offset
+                // is equal to the parent appbar's scroll range... if it is equal then the
+                // appbar has collapsed to the top
+                if (verticalOffset == appBarLayout.getTotalScrollRange() *-1) {
+                    commentList.setNestedScrollingEnabled(true);
+                } else if (verticalOffset ==0 ){
+                    commentList.setNestedScrollingEnabled(false);
+                }
+            }
+        });
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String title = intent.getStringExtra(EVENT_NAME);
+                intent = new Intent(context,CommentsActivity.class);
+                intent.putExtra("eventTitle",title);
+                startActivityForResult(intent,ADD_COMMENT_CODE);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == ADD_COMMENT_CODE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(context,"Comment successfully added",Toast.LENGTH_SHORT).show();
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+
+                // Do something with the contact here (bigger example below)
+            }
+        }
     }
 
     public void fakeData(){
         commentList = new ArrayList<>();
-        commentList.add(new Comment("test","test"));
+        commentList.add(new Comment("Comment","Author"));
         commentList.add(new Comment("test1","test1"));
         commentList.add(new Comment("test2","test2"));
         commentList.add(new Comment("test3","test3"));
+        commentList.add(new Comment("test3","test3"));
+        commentList.add(new Comment("test3","test3"));
+        commentList.add(new Comment("test3","test3"));
+        commentList.add(new Comment("test3","test3"));
+        for(int i = 0 ; i < 10; i++){
+            commentList.add(new Comment("Comfment "+i,"Author "+i));
+        }
 
 
     }
@@ -125,7 +172,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                 .transform(new CircleTransform())
                 .into(groupImage);
 
-        mDescrption.setText(intent.getStringExtra(EVENT_DES));
+       // mDescrption.setText(intent.getStringExtra(EVENT_DES));
 
     }
 }

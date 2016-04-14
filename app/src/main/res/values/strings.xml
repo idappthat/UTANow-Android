@@ -8,6 +8,11 @@
     <string name="dashboard">dashboard</string>
     <string name="event_details">Event Details</string>
 
+    <!-- jus for testing -->
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, est ut tincidunt at, pede felis in wisi pede. Do praesent. Inceptos pede cillum tristique amet, id tempor nam ac augue, mauris diam, pede etiam odio ultricies. Nullam duis, urna at, malesuada risus dignissim, dictum blandit diam mollis.</string>
+
+    <!-- add comment -->
+    <string name="add_comment">Join the conversation</string>
 
     <!-- Drawer -->
     <string name="bookmarks">Bookmarks</string>
@@ -34,6 +39,7 @@
 
     <!-- text link -->
     <string name="view_comments">Click here to view the rest of the comments</string>
+    <string name="title_activity_comments">CommentsActivity</string>
 
 </resources>
 
